@@ -6,6 +6,7 @@ bin/
 src/test/resources/badcase
 src/test/resources/sms*
 classes/
+out/
 
 #Add by wangzhili
 #src/test/resources/
