@@ -1,25 +1,27 @@
 package Numbers
 
-/**
- * Given nums = [2, 7, 11, 15], target = 9,
-Because nums[0] + nums[1] = 2 + 7 = 9,
-return [0, 1].
- */
-fun main(array: Array<String>) {
-    var arr = arrayOf(2, 11, 15, 7)
+
+fun main(args: Array<String>) {
+    var arr = intArrayOf(2, 11, 15, 7)
     var target = 9
-    println("find two sum ${findTwoSum(arr, target)}")
+    twoSum(arr, target)?.forEach {
+        print("${it},")
+    }
 }
 
-fun findTwoSum(arr: Array<Int>, target: Int): String {
-    val map = HashMap<Int, Int>()
-    for (num in arr) {
-        if (map.containsKey(num)) {
-            return "[${map[num]}, $num]"
+//使用map记录某个值是否访问过,key为这个值,value为对应的index
+var visitedMap = HashMap<Int, Int>()
+
+fun twoSum(nums: IntArray, target: Int): IntArray? {
+    for ((index, value) in nums.withIndex()) {
+        //检查target和当前值的差是否在visitedMap中
+        val visitedValue = target - value
+        if (visitedMap.containsKey(visitedValue)) {
+            return intArrayOf(visitedMap.get(visitedValue)!!, index)
         } else {
-            //现在就吧结果放进去, (9-2)->2, 下次循环如果遇到7了, 通过map[7]就可以取到, 动态规划: 记住求过的解来节省时间
-            map[target - num] = num
+            visitedMap.put(value, index)
         }
     }
-    return "not find"
+    return null
 }
+
