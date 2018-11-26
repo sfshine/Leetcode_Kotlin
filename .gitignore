@@ -1,5 +1,6 @@
 #Add by lichao
 .idea
+.idea/*
 target/
 conf/config_*.txt
 bin/

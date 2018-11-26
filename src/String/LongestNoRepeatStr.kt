@@ -36,9 +36,6 @@ fun lengthOfLongestSubstring(s: String): Int {
                 subStrStartIndex = mapOfCharToIndex.get(char)!! + 1
             }
         }
-//        if (mapOfCharToIndex.containsKey(char)) {
-//            subStrStartIndex = Math.max(subStrStartIndex, mapOfCharToIndex.get(char)!! + 1)
-//        }
         maxLength = Math.max(maxLength, index - subStrStartIndex + 1)
         mapOfCharToIndex.put(char, index)
     }
