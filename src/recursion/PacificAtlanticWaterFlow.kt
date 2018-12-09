@@ -3,53 +3,25 @@ package recursion
 import java.util.*
 
 class PacificAtlanticWaterFlow {
-
-
     class Solution {
         fun pacificAtlantic(table: Array<IntArray>): List<IntArray> {
             if (table.size == 0) return emptyList()
-            var aNextSteps = arrayOf(intArrayOf(1, 0), intArrayOf(0, 1), intArrayOf(-1, 0), intArrayOf(0, -1))
-            var pNextSteps = arrayOf(intArrayOf(-1, 0), intArrayOf(0, -1), intArrayOf(1, 0), intArrayOf(0, 1))
-
-            var pacificResult = findDots(table, 0, 0, pNextSteps)
-            var atlanticResult = findDots(table, table.size - 1, table[0].size - 1, aNextSteps)
-
-//            println("pacific result---------")
-//            printResult(pacificResult)
-
-//            println("atlanticResult result---------")
-//            printResult(atlanticResult)
-
-            var result = mutableListOf<IntArray>()
-
-            for (res in pacificResult) {
-                if (resultExists(res, atlanticResult)) {
-                    result.add(res)
-                }
-            }
+            var result = findDots(table)
             return result
         }
 
-        private fun resultExists(ele: IntArray, result: List<IntArray>): Boolean {
-            if (ele.size < 2) return false
-            for (res in result) {
-                if (res.size < 2) continue
-                if (res[0] == ele[0] && res[1] == ele[1]) return true
-            }
-            return false
-        }
+        private fun findDots(table: Array<IntArray>): List<IntArray> {
+            var pNextSteps = arrayOf(intArrayOf(-1, 0), intArrayOf(0, -1), intArrayOf(1, 0), intArrayOf(0, 1))
+            var aNextSteps = arrayOf(intArrayOf(1, 0), intArrayOf(0, 1), intArrayOf(-1, 0), intArrayOf(0, -1))
 
-        private fun findDots(table: Array<IntArray>, borderI: Int, borderJ: Int, nextStep: Array<IntArray>): List<IntArray> {
             var res = mutableListOf<IntArray>()
             for (i in 0 until table.size) {
                 for (j in 0 until table[i].size) {
-                    if (i == borderI || j == borderJ) {
-                        println("adding border: table[$i][$j]: ${table[i][j]}")
-                        res.add(intArrayOf(i, j))
-                    } else {
-                        var visited = Array(table.size) { BooleanArray(table[0].size) { false } }
-                        findDotsRecursion(table[i][j], table, i, j, nextStep, visited, borderI, borderJ, i, j, res)
-                    }
+                    var visited = Array(table.size) { BooleanArray(table[0].size) { false } }
+                    var pacificResult = findDotsRecursion(table[i][j], table, i, j, pNextSteps, visited, 0, 0)
+                    visited = Array(table.size) { BooleanArray(table[0].size) { false } }
+                    var atlanticResult = findDotsRecursion(table[i][j], table, i, j, aNextSteps, visited, table.size - 1, table[0].size - 1)
+                    if (pacificResult && atlanticResult) res.add(intArrayOf(i, j))
                 }
             }
             return res
@@ -59,22 +31,19 @@ class PacificAtlanticWaterFlow {
                                       nextStep: Array<IntArray>,
                                       visited: Array<BooleanArray>,
                                       borderI: Int,
-                                      borderJ: Int,
-                                      originI: Int,
-                                      originJ: Int,
-                                      res: MutableList<IntArray>): Boolean {
+                                      borderJ: Int): Boolean {
+            if (startI == borderI || startJ == borderJ)
+                return true
             for (intArr in nextStep) {
                 val nextI = startI + intArr[0]
                 var nextJ = startJ + intArr[1]
                 if (inArea(nextI, nextJ, table) && currentValue >= table[nextI][nextJ] && !visited[nextI][nextJ]) {
-                    println("currentValue = ${currentValue}, checking table[${nextI}][${nextJ}] = ${table[nextI][nextJ]}")
+                    // println("currentValue = ${currentValue}, checking table[${nextI}][${nextJ}] = ${table[nextI][nextJ]}")
                     if (nextI == borderI || nextJ == borderJ) {
-                        res.add(intArrayOf(originI, originJ))
-                        println("dotfind : adding border of Parcific:  table[${originI}][${originJ}] = ${table[originI][originJ]}")
                         return true
                     } else {
                         visited[nextI][nextJ] = true
-                        var findResult = findDotsRecursion(table[nextI][nextJ], table, nextI, nextJ, nextStep, visited, borderI, borderJ, originI, originJ, res)
+                        var findResult = findDotsRecursion(table[nextI][nextJ], table, nextI, nextJ, nextStep, visited, borderI, borderJ)
                         if (findResult) {
                             return true
                         }
