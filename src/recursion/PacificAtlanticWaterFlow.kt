@@ -1,7 +1,5 @@
 package recursion
 
-import java.util.*
-
 class PacificAtlanticWaterFlow {
     class Solution {
         fun pacificAtlantic(table: Array<IntArray>): List<IntArray> {
