@@ -1,45 +1,52 @@
 package strings
 
-import java.lang.StringBuilder
+import kotlin.math.max
 
 /**
  * 给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
+ *
+ * 输入: "abcabcbb"
+ * 输出: 3
+ * 解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
+ *
+ * 输入: "bbbbb"
+ * 输出: 1
+ * 解释: 因为无重复字符的最长子串是 "b"，所以其长度为 1。
+ *
+ *
+ * 输入: "pwwkew"
+ * 输出: 3
+ * 解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
+ * 请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。
  */
 fun main(args: Array<String>) {
-//    println(lengthOfLongestSubstring("abcabcbb"))
-//    println(lengthOfLongestSubstring("bbbbb"))
-//    println(lengthOfLongestSubstring("pwwkew"))
-//    println(lengthOfLongestSubstring("aab"))
-//    println(lengthOfLongestSubstring("a"))
-    println(lengthOfLongestSubstring("tmmzuxt"))
-
+    println(lengthOfLongestSubstring("abcabcbb"))
+    println(lengthOfLongestSubstring("bbbbb"))
+    println(lengthOfLongestSubstring("pwwkew"))
+    println(lengthOfLongestSubstring("abba"))
+    println(lengthOfLongestSubstring("dvdf"))
 }
 
 /**
- *   1.map存储char和他对应的index
- *   2.缓存一个subStrStartIndex来记录当前不重复子串的起始位置
- *   3.遍历数组
- *   如果元素已经在Map了, 也就是有重复字符了, 那就要考察是否需要更新subStrStartIndex了
- *   把当前重复字符的index >= 当前的subStrStartIndex, 更新 subStrStartIndex 为 当前重复字符的index +1
- *   4.通过index - subStrStartIndex +1 求字符串长度
- *   5.想mapOfCharToIndex增加当前的char值和索引
+ *   1.使用一个Map存储char和它对应的index
+ *   2.缓存一个subStrStartIndex来记录当前不重复子串的起始位置, 最大长度 = index - subStrStartIndex +1
+ *   3.遍历数组,如果数组中的元素已经在Map中了, 说明从subStrStartIndex到index这一段中已经存在重复字符了,那就把subStrStartIndex赋值给这个重复字符的所在index+1的位置,
+ *     同时需要注意:subStrStartIndex需要往前不能回退!
+ *   4.定义maxSubStrLength, 通过index - subStrStartIndex +1 求字符串长度,并赋值给maxSubStrLength
  */
 fun lengthOfLongestSubstring(s: String): Int {
-    var mapOfCharToIndex = HashMap<Char, Int>()
-    var subStrStartIndex = 0
-    var charArray = s.toCharArray()
-    var maxLength = 0
-    for ((index, char) in charArray.withIndex()) {
-        //有重复字符并且这个字符的位置比当前的preIndex靠前,需要将preIndex从已经存在的元素的index往前移动一位继续试,后面还会更新这个char的index
-        if (mapOfCharToIndex.containsKey(char)) {
-            if (mapOfCharToIndex.get(char)!! >= subStrStartIndex) {
-                subStrStartIndex = mapOfCharToIndex.get(char)!! + 1
-            }
+    if (s.isEmpty()) return 0
+    var subStrStart = 0
+    var maxSubStrLength = 0
+    var charMap = HashMap<Char, Int>()
+    for ((index, char) in s.withIndex()) {
+        if (charMap.containsKey(char)) {
+            subStrStart = Math.max(subStrStart, charMap[char]!! + 1)
         }
-        maxLength = Math.max(maxLength, index - subStrStartIndex + 1)
-        mapOfCharToIndex.put(char, index)
+        charMap.put(char, index)
+        maxSubStrLength = Math.max(maxSubStrLength, index - subStrStart + 1)
     }
-    return maxLength
+    return maxSubStrLength
 }
 
 ///**
