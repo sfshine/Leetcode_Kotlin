@@ -1,4 +1,4 @@
-package String
+package strings
 
 import java.lang.StringBuilder
 
@@ -49,7 +49,7 @@ fun lengthOfLongestSubstring(s: String): Int {
 // * 如果set中已经存在相同的元素了,就把其前面的元素移除,继续判断新的set有没有重复的
 // * 否则,更新max
 // */
-//fun longestNoRepeatStrSet(str: String): Int {
+//fun longestNoRepeatStrSet(str: strings): Int {
 //    var maxSet = HashSet<Char>()
 //    var charArray = str.toCharArray()
 //    var maxLength = 0

@@ -1,4 +1,4 @@
-package Arrays
+package arrays
 
 fun main(args: Array<String>) {
     var array1 = intArrayOf(1, 3)

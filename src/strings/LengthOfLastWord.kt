@@ -1,4 +1,4 @@
-package String
+package strings
 
 fun main(array: Array<String>) {
     val test = "Hello World "

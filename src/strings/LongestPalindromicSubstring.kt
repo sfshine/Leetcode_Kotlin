@@ -1,6 +1,4 @@
-package String
-
-import kotlin.test.assertEquals
+package strings
 
 fun main(args: Array<String>) {
     var test = "babad"

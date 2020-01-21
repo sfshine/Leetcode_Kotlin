@@ -1,4 +1,4 @@
-package Integer
+package integer
 
 fun main(args: Array<String>) {
 //    println("${ReverseInteger.Solution().reverse(123)}")

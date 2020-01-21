@@ -1,4 +1,4 @@
-package Numbers
+package numbers
 
 
 fun main(args: Array<String>) {

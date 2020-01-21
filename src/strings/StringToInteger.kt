@@ -1,4 +1,4 @@
-package String
+package strings
 
 fun main(args: Array<String>) {
 //    println("123: ${StringToInteger.Solution().myAtoi("123")}")

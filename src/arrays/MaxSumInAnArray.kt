@@ -1,4 +1,4 @@
-package Arrays
+package arrays
 
 fun main(args: Array<String>) {
     //求一个数组中局部元素的最大和

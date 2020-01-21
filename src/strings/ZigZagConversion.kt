@@ -1,4 +1,4 @@
-package String
+package strings
 
 import java.lang.StringBuilder
 
